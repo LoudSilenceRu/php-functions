@@ -19,3 +19,27 @@ function HideEmail($email) {
 function RandomString($length = 10) {
 	return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
+
+function dDays($number) {
+	$str = '';
+	$nStr = (string) $number;
+	$nStr = $nStr[strlen($nStr)-1];
+	switch ($nStr) {
+		case 1:
+			$str = 'день';
+			break;
+		case 2:
+			$str = 'дня';
+			break;
+		case 3:
+			$str = 'дня';
+			break;
+		case 4:
+			$str = 'дня';
+			break;
+		default:
+			$str = 'дней';
+			break;
+	}
+	return $number.' '.$str;
+}
