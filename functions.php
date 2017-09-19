@@ -20,26 +20,90 @@ function RandomString($length = 10) {
 	return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
 
-function dDays($number) {
+function Declension($number = 1, $type = 'd') {
+	//$type = s || m || h || d
 	$str = '';
 	$nStr = (string) $number;
 	$nStr = $nStr[strlen($nStr)-1];
-	switch ($nStr) {
-		case 1:
+
+	function sm($number, $string) {
+		switch ($number) {
+			case 1:
+			$string = $string.'а';
+			break;
+			case 2:
+			$string = $string.'ы';
+			break;
+			case 3:
+			$string = $string.'ы';
+			break;
+			case 4:
+			$string = $string.'ы';
+			break;
+			default:
+			break;
+		}
+		return $string;
+	}
+
+	function h($number) {
+		$string = 'час';
+		switch ($number) {
+			case 1:
+			break;
+			case 2:
+			$string = $string.'а';
+			break;
+			case 3:
+			$string = $string.'а';
+			break;
+			case 4:
+			$string = $string.'а';
+			break;
+			default:
+			$string = $string.'ов';
+			break;
+		}
+		return $string;
+	}
+
+	function days($number) {
+		switch ($number) {
+			case 1:
 			$str = 'день';
 			break;
-		case 2:
+			case 2:
 			$str = 'дня';
 			break;
-		case 3:
+			case 3:
 			$str = 'дня';
 			break;
-		case 4:
+			case 4:
 			$str = 'дня';
 			break;
-		default:
+			default:
 			$str = 'дней';
 			break;
+		}
 	}
+
+	switch ($type) {
+		case 's':
+		$str = sm($nStr, 'секунд');
+		break;
+		case 'm':
+		$str = sm($nStr, 'минут');
+		break;
+		case 'h':
+		$str = h($nStr);
+		break;
+		case 'd':
+		$str = days($nStr);
+		break;
+		default:
+
+		break;
+	}
+
 	return $number.' '.$str;
 }
