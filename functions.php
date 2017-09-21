@@ -20,107 +20,24 @@ function RandomString($length = 10) {
 	return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
 
-function Declension($number = 1, $type = 'd') {
-	//$type = s || m || h || d
-	$str = '';
-	$nStr = (string) $number;
-	$nStr = $nStr[strlen($nStr)-1];
+function plural_form($args) {
+	if (!isset($args['number']) || !isset($args['words']))
+		return;
 
-	function sm($number, $string) {
-		switch ($number) {
-			case 1:
-			$string = $string.'а';
-			break;
-			case 2:
-			$string = $string.'ы';
-			break;
-			case 3:
-			$string = $string.'ы';
-			break;
-			case 4:
-			$string = $string.'ы';
-			break;
-			default:
-			break;
-		}
-		return $string;
-	}
-
-	function h($number) {
-		$string = 'час';
-		switch ($number) {
-			case 1:
-			break;
-			case 2:
-			$string = $string.'а';
-			break;
-			case 3:
-			$string = $string.'а';
-			break;
-			case 4:
-			$string = $string.'а';
-			break;
-			default:
-			$string = $string.'ов';
-			break;
-		}
-		return $string;
-	}
-
-	function days($number) {
-		switch ($number) {
-			case 1:
-			$str = 'день';
-			break;
-			case 2:
-			$str = 'дня';
-			break;
-			case 3:
-			$str = 'дня';
-			break;
-			case 4:
-			$str = 'дня';
-			break;
-			default:
-			$str = 'дней';
-			break;
-		}
-	}
-
-	switch ($type) {
-		case 's':
-		$str = sm($nStr, 'секунд');
-		break;
-		case 'm':
-		$str = sm($nStr, 'минут');
-		break;
-		case 'h':
-		$str = h($nStr);
-		break;
-		case 'd':
-		$str = days($nStr);
-		break;
-		default:
-
-		break;
-	}
-
-	return $number.' '.$str;
+  $cases = array (2, 0, 1, 1, 1, 2); // 1 2 5
+  echo $args['number'].' '.$args['words'][ ($args['number']%100>4 && $args['number']%100<20) ? 2 : $cases[min($args['number']%10, 5)] ];
 }
 
 function timePassed($timestamp) {
 
 	$diff = time()-$timestamp;
 
-	if ($diff < 60) {
-		return ($diff%60);
-	} else if ($diff > 60 && $diff < 3600) {
-		return floor($diff%3600/60);
-	} else if ($diff > 3600 && $diff < 86400) {
-		return floor($diff/3600);
-	} else if ($diff > 86400 && $diff < 31536000) {
-		return floor($diff/86400);
-	} else {
-		return floor($diff/31536000);
-	}
+	//echo date('d.m.Y H:i:s', $timestamp).'<br>';
+	//echo date('d.m.Y H:i:s', time()).'<br>';
+
+	return ($diff < 60) ? array('number' => ($diff%60), 'words' => array('секунда','секунды','секунд')) : //секунды
+		($diff >= 60 && $diff < 3600) ? array('number' => intval($diff%3600/60), 'words' => array('минута','минуты','минут')) : //минуты
+			($diff >= 3600 && $diff < 86400) ? array('number' => intval($diff/3600), 'words' => array('час','часа','часов')) : //часы
+				($diff >= 86400 && $diff < 31536000) ? array('number' => intval($diff/86400), 'words' => array('день','дня','дней')) : //дни
+					array('number' => intval($diff/31536000), 'words' => array('год','года','лет')); // годы
 }
