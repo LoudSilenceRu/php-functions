@@ -20,24 +20,23 @@ function RandomString($length = 10) {
 	return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
 
-function plural_form($args) {
-	if (!isset($args['number']) || !isset($args['words']))
-		return;
-
+function plural_form($number = 0, $text = array('комментарий','комментария','комментариев')) {
   $cases = array (2, 0, 1, 1, 1, 2); // 1 2 5
-  echo $args['number'].' '.$args['words'][ ($args['number']%100>4 && $args['number']%100<20) ? 2 : $cases[min($args['number']%10, 5)] ];
+  echo $number.' '.$text[ ($number%100>4 && $number%100<20) ? 2 : $cases[min($number%10, 5)] ];
 }
 
 function timePassed($timestamp) {
 
 	$diff = time()-$timestamp;
 
-	//echo date('d.m.Y H:i:s', $timestamp).'<br>';
-	//echo date('d.m.Y H:i:s', time()).'<br>';
-
-	return ($diff < 60) ? array('number' => ($diff%60), 'words' => array('секунда','секунды','секунд')) : //секунды
-		($diff >= 60 && $diff < 3600) ? array('number' => intval($diff%3600/60), 'words' => array('минута','минуты','минут')) : //минуты
-			($diff >= 3600 && $diff < 86400) ? array('number' => intval($diff/3600), 'words' => array('час','часа','часов')) : //часы
-				($diff >= 86400 && $diff < 31536000) ? array('number' => intval($diff/86400), 'words' => array('день','дня','дней')) : //дни
-					array('number' => intval($diff/31536000), 'words' => array('год','года','лет')); // годы
+	if ($diff < 60) 
+		return plural_form($diff%60, array('секунда','секунды','секунд'));
+	else if ($diff >= 60 && $diff < 3600) 
+		return plural_form(floor($diff%3600/60), array('минута','минуты','минут'));
+	else if ($diff >= 3600 && $diff < 86400) 
+		return plural_form(floor($diff/3600), array('час','часа','часов'));
+	else if ($diff >= 86400 && $diff < 31536000) 
+		return plural_form(floor($diff/86400), array('день','дня','дней'));
+	else 
+		return plural_form(floor($diff/31536000), array('год','года','лет'));
 }
