@@ -13,6 +13,13 @@ function getFiles($path = "E:\Vids\\", $typeOfFiles = "/.mp4$/") {
 	return $filesArray;
 }
 
+function dirCreator($file, $path) {
+	$expl1 = explode('.', $file);
+	$expl2 = preg_split("/_/", $expl1[0]);
+	array_pop($expl2);
+	replaceFile($file, $path, $expl2[0]);
+}
+
 function replaceFile($file, $path, $newdir) {
 	$expl = explode('.', $file);
 	$copy = copy($path.$file, $path.$newdir.'\\'.$file);
