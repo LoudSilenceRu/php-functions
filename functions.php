@@ -1,15 +1,13 @@
 <?php
 
-function d($value = null, $die = false, $vd = true) {
+function d($value = "", $die = false, $vd = true) {
 
 	echo '<p>Debug: </p><pre>';
-	if ($print) {
+	if ($vd)
 		var_dump($value);
-	} else {
+	else
 		print_r($value);
-	}
 	echo '</pre>';
-
 	if($die) die;
 }
 
@@ -54,12 +52,22 @@ function timePassed($timestamp) {
 		return plural_form(floor($diff/31536000), array('год','года','лет'));
 }
 
-function curl( $url ) {
-	$ch = curl_init( $url );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, false );
-	curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	$response = curl_exec( $ch );
-	curl_close( $ch );
-	return json_decode($response , true);
+function curl($url) {
+	$ch = curl_init($url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	$response = curl_exec($ch);
+	curl_close($ch);
+	return json_decode($response, true);
 }
+
+function custom_cmp($a, $b) {
+	return $a <=> $b;
+}
+
+$arr = array(1,3,6,2,7,0);
+
+usort($arr, "custom_cmp");
+
+d($arr);
