@@ -66,8 +66,12 @@ function custom_cmp($a, $b) {
 	return $a <=> $b;
 }
 
-$arr = array(1,3,6,2,7,0);
-
-usort($arr, "custom_cmp");
-
-d($arr);
+function maxUrlArgs($args, $maxArgs) {
+	//d(count($args));
+	//d($args);
+	//d($args[$maxArgs]);
+	//d($maxArgs);
+	if (count($args) > $maxArgs) {
+		if (!empty($args[$maxArgs])) throw new Exception('Error 404');
+	}
+}
