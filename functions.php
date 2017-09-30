@@ -75,3 +75,10 @@ function maxUrlArgs($args, $maxArgs) {
 		if (!empty($args[$maxArgs])) throw new Exception('Error 404');
 	}
 }
+
+function hex_to_rgb($hex) {
+	$rgb = array();
+	$hex = ($hex[0] == '#') ?: "#".$hex;
+	list($rgb['r'], $rgb['g'], $rgb['b']) = sscanf($hex, "#%02x%02x%02x");
+	return $rgb;
+}
