@@ -77,8 +77,10 @@ function maxUrlArgs($args, $maxArgs) {
 }
 
 function hex_to_rgb($hex) {
-	$rgb = array();
-	$hex = ($hex[0] == '#') ?: "#".$hex;
-	list($rgb['r'], $rgb['g'], $rgb['b']) = sscanf($hex, "#%02x%02x%02x");
-	return $rgb;
+	$hex = str_replace("#","",$hex);
+	for ($i=0, $remain = 6-strlen($hex); $i < $remain; $i++) { 
+		$hex = "0$hex";
+	}
+	list($r, $g, $b) = sscanf($hex, "%02x%02x%02x");
+	return (array) array('r' => $r, 'g' => $g,'b' => $b);
 }
