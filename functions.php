@@ -76,11 +76,29 @@ function maxUrlArgs($args, $maxArgs) {
 	}
 }
 
-function hex_to_rgb($hex) {
+function hex_to_rgb($hex = "ffffff", $is_arr = true) {
 	$hex = str_replace("#","",$hex);
-	for ($i=0, $remain = 6-strlen($hex); $i < $remain; $i++) { 
-		$hex = "0$hex";
+	$str = "";
+
+	if (strlen($hex) == 3) {
+		for ($i=0; $i < strlen($hex); $i++) {
+			for ($j=0; $j < 2; $j++) { 
+				$str .= $hex[$i];
+			}
+		}
+	} else if (strlen($hex) > 6) {
+		$str = substr($hex, 0, 6);
+	} else {
+		for ($i=0, $remain = 6-strlen($hex); $i < $remain; $i++) { 
+			$hex = "0$hex";
+		}
+		$str = $hex;
 	}
-	list($r, $g, $b) = sscanf($hex, "%02x%02x%02x");
-	return (array) array('r' => $r, 'g' => $g,'b' => $b);
+
+	list($r, $g, $b) = sscanf($str, "%02x%02x%02x");
+
+	if ($is_arr)
+		return (array) array('r' => $r, 'g' => $g,'b' => $b);
+	else
+		return (string) "$r, $g, $b";
 }
