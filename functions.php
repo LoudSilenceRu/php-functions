@@ -31,25 +31,26 @@ function RandomString($length = 10) {
 	return substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
 }
 
-function plural_form($number = 0, $text = array('комментарий','комментария','комментариев')) {
+function plural_form($number = 0, $text = array('комментарий','комментария','комментариев'), $postfix = '') {
   $cases = array (2, 0, 1, 1, 1, 2); // 1 2 5
-  echo $number.' '.$text[ ($number%100>4 && $number%100<20) ? 2 : $cases[min($number%10, 5)] ];
+  return $number.' '.$text[($number%100>4 && $number%100<20) ? 2 : $cases[min($number%10, 5)]].' '.$postfix;
 }
 
 function timePassed($timestamp) {
 
 	$diff = time()-$timestamp;
+	$postfix = "назад";
 
 	if ($diff < 60) 
-		return plural_form($diff%60, array('секунда','секунды','секунд'));
+		return plural_form($diff%60, array('секунда','секунды','секунд'), $postfix);
 	else if ($diff >= 60 && $diff < 3600) 
-		return plural_form(floor($diff%3600/60), array('минута','минуты','минут'));
+		return plural_form(floor($diff%3600/60), array('минута','минуты','минут'), $postfix);
 	else if ($diff >= 3600 && $diff < 86400) 
-		return plural_form(floor($diff/3600), array('час','часа','часов'));
+		return plural_form(floor($diff/3600), array('час','часа','часов'), $postfix);
 	else if ($diff >= 86400 && $diff < 31536000) 
-		return plural_form(floor($diff/86400), array('день','дня','дней'));
+		return plural_form(floor($diff/86400), array('день','дня','дней'), $postfix);
 	else 
-		return plural_form(floor($diff/31536000), array('год','года','лет'));
+		return plural_form(floor($diff/31536000), array('год','года','лет'), $postfix);
 }
 
 function curl($url) {
