@@ -103,3 +103,10 @@ function hex_to_rgb($hex = "ffffff", $is_arr = true) {
 	else
 		return (string) "$r, $g, $b";
 }
+
+function rgb_to_hex($rgb, $sharp = true) {
+	if (!is_array($rgb) || count($rgb) < 3)
+		return;
+	$pattern = $sharp ? '#' : '';
+	return (string) sprintf("$pattern%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2]);
+}
