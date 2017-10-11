@@ -110,3 +110,14 @@ function rgb_to_hex($rgb, $sharp = true) {
 	$pattern = $sharp ? '#' : '';
 	return (string) sprintf("$pattern%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2]);
 }
+
+function color_inverse($hex = "fff"){
+	$hex = str_replace('#', '', $hex);
+	$rgb = '';
+	for ($i=0;$i<3;$i++){
+		$c = 255 - hexdec(substr($hex,(2*$i),2));
+		$c = ($c < 0) ? 0 : dechex($c);
+		$rgb .= (strlen($c) < 2) ? '0'.$c : $c;
+	}
+	return '#'.$rgb;
+}
