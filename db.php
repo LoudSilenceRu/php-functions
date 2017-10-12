@@ -1,11 +1,15 @@
 <?php
-define("HOST", "localhost");
-define("DB", "my_db");
-define("USER", "localhost");
-define("PASS", "");
+define('DB_HOST', 'localhost');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_DB', 'my_db');
 
-//DB Connection
-$connect = mysqli_connect(HOST, USER, PASS, DB) or die("Error " . mysqli_error($connect));
+class db {
+
+	public function __construct() {
+		$this->mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DB);
+	}
+}
 
 //Simple sanitize string
 function sanStr($str) {
